@@ -1,2 +1,6 @@
 .DS_Store
 node_modules/
+dist/
+
+## Cache Files
+.rts2*/

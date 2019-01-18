@@ -4,9 +4,6 @@
   "description": "Top Secret",
   "source": "src/index.ts",
   "typings": "index.d.ts",
-  "scripts": {
-    "test": "test"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sghall/kapellmeister.git"
@@ -24,6 +21,10 @@
     "url": "https://github.com/sghall/kapellmeister/issues"
   },
   "homepage": "https://github.com/sghall/kapellmeister#readme",
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  },
   "dependencies": {
     "microbundle": "^0.9.0"
   }
