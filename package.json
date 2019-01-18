@@ -1,0 +1,30 @@
+{
+  "name": "kapellmeister",
+  "version": "0.1.0",
+  "description": "Top Secret",
+  "source": "src/index.ts",
+  "typings": "index.d.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sghall/kapellmeister.git"
+  },
+  "keywords": [
+    "animation",
+    "react",
+    "react",
+    "hooks",
+    "transition"
+  ],
+  "author": "Steven Hall",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sghall/kapellmeister/issues"
+  },
+  "homepage": "https://github.com/sghall/kapellmeister#readme",
+  "dependencies": {
+    "microbundle": "^0.9.0"
+  }
+}
