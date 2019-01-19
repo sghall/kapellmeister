@@ -294,6 +294,16 @@ class Node {
     }
   }
 
+  stopAnimating() {
+    const transitions = this.__TRANSITIONS__
+  
+    if (transitions) {
+      Object.keys(transitions).forEach((t) => {
+        transitions[t].timer.stop()
+      })
+    }
+  }
+
 }
 
 export default Node
