@@ -2,9 +2,9 @@ import { now, timer, timeout } from 'd3-timer'
 import getTween from './getTween'
 import {
   once,
+  timingDefaults,
   extend,
   getTransitionId,
-  timingDefaults,
 } from './utils'
 import {
   Transition
