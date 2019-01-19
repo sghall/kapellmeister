@@ -23,7 +23,7 @@
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
-    "copy": "cp dist/kapellmeister.js ../react-move/src/core/Node.js"
+    "copy": "cp dist/kapellmeister.js ../react-move/src/core/kapellmeister.js && cp dist/kapellmeister.js.map ../react-move/src/core/kapellmeister.js.map"
   },
   "devDependencies": {
     "microbundle": "^0.9.0",

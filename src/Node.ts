@@ -1,13 +1,12 @@
 import { now, timer, timeout } from 'd3-timer'
+import getTween from './getTween'
 import {
   once,
   extend,
   getTransitionId,
   timingDefaults,
-  getInterpolator
 } from './utils'
 import {
-  AttrValue,
   Transition
 } from './types'
 
@@ -23,8 +22,8 @@ class Node {
   state: object
   private __TRANSITIONS__: object
 
-  constructor(state: object) {
-    this.state = state
+  constructor(state?: object) {
+    this.state = state || {} 
   }
 
   animate(config: Array<object> | object) {
@@ -43,9 +42,9 @@ class Node {
 
   setState(update: object) {
     if (typeof update === 'function') {
-      this.state = extend(this.state, update(this.state))
+      extend(this.state, update(this.state))
     } else {
-      this.state = extend(this.state, update)
+      extend(this.state, update)
     }
   }
 
@@ -80,10 +79,10 @@ class Node {
   
         if (Array.isArray(val)) {
           if (val.length === 1) {
-            tweens.push(this.getTween(null, stateKey, val[0]))
+            tweens.push(getTween.call(this, null, stateKey, val[0]))
           } else {
             this.setState({ [stateKey]: val[0] })
-            tweens.push(this.getTween(null, stateKey, val[1]))
+            tweens.push(getTween.call(this, null, stateKey, val[1]))
           }
         } else if (typeof val === 'function') {
           const getCustomTween = () => {
@@ -97,7 +96,7 @@ class Node {
           tweens.push(getCustomTween)
         } else {
           this.setState({ [stateKey]: val })
-          tweens.push(this.getTween(null, stateKey, val))
+          tweens.push(getTween.call(this, null, stateKey, val))
         }
       } else {
         Object.keys(transitions[stateKey]).forEach((attr) => {
@@ -105,13 +104,13 @@ class Node {
   
           if (Array.isArray(val)) {
             if (val.length === 1) {
-              tweens.push(this.getTween(stateKey, attr, val[0]))
+              tweens.push(getTween.call(this, stateKey, attr, val[0]))
             } else {
               this.setState((state: object) => {
                 return { [stateKey]: { ...state[stateKey], [attr]: val[0] } }
               })
   
-              tweens.push(this.getTween(stateKey, attr, val[1]))
+              tweens.push(getTween.call(this, stateKey, attr, val[1]))
             }
           } else if (typeof val === 'function') {
             const getNameSpacedCustomTween = () => {
@@ -130,7 +129,7 @@ class Node {
               return { [stateKey]: { ...state[stateKey], [attr]: val } }
             })
   
-            tweens.push(this.getTween(stateKey, attr, val))
+            tweens.push(getTween.call(this, stateKey, attr, val))
           }
         })
       }
@@ -155,7 +154,7 @@ class Node {
     const n = transition.tweens.length
     const tweens = new Array(n)
   
-    transition[id] = transition
+    transitions[id] = transition
     transition.timer = timer(queue, 0, transition.timing.time)
   
     function queue(elapsed: number) {
@@ -171,7 +170,7 @@ class Node {
       if (transition.status !== QUEUED) return stop()
   
       for (const tid in transitions) {
-        const t: Transition = transition[tid]
+        const t: Transition = transitions[tid]
   
         if (t.stateKey !== transition.stateKey) {
           continue
@@ -189,12 +188,12 @@ class Node {
             t.events.interrupt.call(this)
           }
           
-          delete transition[tid]
+          delete transitions[tid]
         } else if (+tid < id) {
           t.status = STOPPED
           t.timer.stop()
           
-          delete transition[tid]
+          delete transitions[tid]
         }
       }
   
@@ -256,41 +255,13 @@ class Node {
       }
     }
   
-    function stop() {
+    const stop = () => {
       transition.status = STOPPED
       transition.timer.stop()
   
-      delete transition[id]
+      delete transitions[id]
       for (const i in transitions) return
       delete this.__TRANSITIONS__
-    }
-  }
-
-  private getTween(nameSpace: string, attr: string, value1: AttrValue) {
-    return function tween() {
-      const value0: AttrValue = nameSpace ? this.state[nameSpace][attr] : this.state[attr]
-  
-      if (value0 === value1) {
-        return null
-      }
-  
-      const i = getInterpolator(attr)(value0, value1)
-  
-      let stateTween: (t: number) => void
-  
-      if (nameSpace === null) {
-        stateTween = (t: number) => {
-          this.setState({ [attr]: i(t) })
-        }
-      } else {
-        stateTween = (t: number) => {
-          this.setState((state: object) => {
-            return { [nameSpace]: { ...state[nameSpace], [attr]: i(t) } }
-          })
-        }
-      }
-  
-      return stateTween
     }
   }
 
