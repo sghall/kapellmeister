@@ -1,1 +1,2 @@
-export const four: number = 4
+export { default as Node } from './Node'
+

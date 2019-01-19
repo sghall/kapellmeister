@@ -22,7 +22,8 @@
   "homepage": "https://github.com/sghall/kapellmeister#readme",
   "scripts": {
     "build": "microbundle",
-    "dev": "microbundle watch"
+    "dev": "microbundle watch",
+    "copy": "cp dist/kapellmeister.js ../react-move/src/core/Node.js"
   },
   "devDependencies": {
     "microbundle": "^0.9.0",
