@@ -154,19 +154,20 @@ class Node {
     const n = transition.tweens.length
     const tweens = new Array(n)
   
-    transitions[id] = transition
-    transition.timer = timer(queue, 0, transition.timing.time)
-  
-    function queue(elapsed: number) {
+    
+    const queue = (elapsed: number) => {
       transition.status = QUEUED
       transition.timer.restart(start, transition.timing.delay, transition.timing.time)
-  
+      
       if (transition.timing.delay <= elapsed) {
         start(elapsed - transition.timing.delay)
       }
     }
-  
-    function start(elapsed: number) {
+
+    transitions[id] = transition
+    transition.timer = timer(queue, 0, transition.timing.time)
+    
+    const start = (elapsed: number) => {
       if (transition.status !== QUEUED) return stop()
   
       for (const tid in transitions) {
@@ -230,7 +231,7 @@ class Node {
       tweens.length = j + 1
     }
   
-    function tick(elapsed: number) {
+    const tick = (elapsed: number) => {
       let t = 1
   
       if (elapsed < transition.timing.duration) {
