@@ -10,7 +10,7 @@ import {
   Transition
 } from './types'
 
-const EXISTS = 0
+const CREATED = 0
 const QUEUED = 1
 const STARTING = 2
 const STARTED = 3
@@ -134,7 +134,7 @@ class Node {
         })
       }
   
-      this.update({ stateKey, timing, tweens, events, status: EXISTS })
+      this.update({ stateKey, timing, tweens, events, status: CREATED })
     })
   }
 
