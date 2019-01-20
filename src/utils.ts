@@ -1,5 +1,4 @@
 import { EasingFunction } from './types'
-import { interpolate, interpolateTransformSvg } from 'd3-interpolate'
 
 let transitionId = 0
 
@@ -34,12 +33,4 @@ export const timingDefaults = {
   delay: 0,
   duration: 250,
   ease: linear,
-}
-
-export function getInterpolator(attr: string) {
-  if (attr === 'transform') {
-    return interpolateTransformSvg
-  }
-
-  return interpolate
 }

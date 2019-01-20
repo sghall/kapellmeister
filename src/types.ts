@@ -28,3 +28,17 @@ type TransitionEvents = {
   interrupt?: () => void
   end?: () => void
 }
+
+export interface CustomInterpolator {
+  (t: number): any;
+}
+
+export interface NameSpace {
+  [key: string]: Array<number> | Array<string> | number | string | CustomInterpolator ;
+}
+
+export interface Config {
+  timing?: Timing
+  events?: TransitionEvents
+  [key: string]: Array<number> | Array<string> | number | string | CustomInterpolator | NameSpace;
+}
