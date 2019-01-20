@@ -71,10 +71,10 @@ class BaseNode {
   
         if (Array.isArray(val)) {
           if (val.length === 1) {
-            tweens.push(this.getTween(stateKey, val[0]))
+            tweens.push(this.getTween(stateKey, val[0], null))
           } else {
             this.setState({ [stateKey]: val[0] })
-            tweens.push(this.getTween(stateKey, val[1]))
+            tweens.push(this.getTween(stateKey, val[1], null))
           }
         } else if (typeof val === 'function') {
           const getCustomTween = () => {
@@ -88,7 +88,7 @@ class BaseNode {
           tweens.push(getCustomTween)
         } else {
           this.setState({ [stateKey]: val })
-          tweens.push(this.getTween(stateKey, val))
+          tweens.push(this.getTween(stateKey, val, null))
         }
       } else {
         Object.keys(transitions[stateKey]).forEach((attr) => {
@@ -253,7 +253,7 @@ class BaseNode {
     }
   }
 
-  getTween(attr: string, value: any, nameSpace?: string) {
+  getTween(attr: string, value: any, nameSpace: string) {
     return () => {
       const value0 = nameSpace ? this.state[nameSpace][attr] : this.state[attr]
   
