@@ -11,7 +11,7 @@ import {
 } from './types'
 
 const CREATED = 0
-const QUEUED = 1
+const SCHEDULED = 1
 const STARTING = 2
 const STARTED = 3
 const RUNNING = 4
@@ -156,7 +156,7 @@ class Node {
   
     
     const queue = (elapsed: number) => {
-      transition.status = QUEUED
+      transition.status = SCHEDULED
       transition.timer.restart(start, transition.timing.delay, transition.timing.time)
       
       if (transition.timing.delay <= elapsed) {
@@ -168,7 +168,7 @@ class Node {
     transition.timer = timer(queue, 0, transition.timing.time)
     
     const start = (elapsed: number) => {
-      if (transition.status !== QUEUED) return stop()
+      if (transition.status !== SCHEDULED) return stop()
   
       for (const tid in transitions) {
         const t: Transition = transitions[tid]
