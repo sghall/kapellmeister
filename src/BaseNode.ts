@@ -65,34 +65,14 @@ class BaseNode {
   
     Object.keys(transitions).forEach((stateKey) => {
       const tweens = []
+      const next = transitions[stateKey]
   
-      if (Array.isArray(transitions[stateKey])) {
-        const val = transitions[stateKey]
-  
-        if (Array.isArray(val)) {
-          if (val.length === 1) {
-            tweens.push(this.getTween(stateKey, val[0], null))
-          } else {
-            this.setState({ [stateKey]: val[0] })
-            tweens.push(this.getTween(stateKey, val[1], null))
-          }
-        } else if (typeof val === 'function') {
-          const getCustomTween = () => {
-            const kapellmeisterTween = (t: number) => {
-              this.setState({ [stateKey]: val(t) })
-            }
-  
-            return kapellmeisterTween
-          }
-  
-          tweens.push(getCustomTween)
-        } else {
-          this.setState({ [stateKey]: val })
-          tweens.push(this.getTween(stateKey, val, null))
-        }
-      } else {
-        Object.keys(transitions[stateKey]).forEach((attr) => {
-          const val = transitions[stateKey][attr]
+      if (
+        typeof next === 'object' &&
+        Array.isArray(next) === false
+      ) {
+        Object.keys(next).forEach((attr) => {
+          const val = next[attr]
   
           if (Array.isArray(val)) {
             if (val.length === 1) {
@@ -124,6 +104,28 @@ class BaseNode {
             tweens.push(this.getTween(attr, val, stateKey))
           }
         })
+      } else {  
+        if (Array.isArray(next)) {
+          if (next.length === 1) {
+            tweens.push(this.getTween(stateKey, next[0], null))
+          } else {
+            this.setState({ [stateKey]: next[0] })
+            tweens.push(this.getTween(stateKey, next[1], null))
+          }
+        } else if (typeof next === 'function') {
+          const getCustomTween = () => {
+            const kapellmeisterTween = (t: number) => {
+              this.setState({ [stateKey]: next(t) })
+            }
+  
+            return kapellmeisterTween
+          }
+  
+          tweens.push(getCustomTween)
+        } else {
+          this.setState({ [stateKey]: next })
+          tweens.push(this.getTween(stateKey, next, null))
+        }
       }
   
       this.update({ stateKey, timing, tweens, events, status: 0 })
@@ -272,7 +274,8 @@ class BaseNode {
       } else {
         stateTween = (t: number) => {
           this.setState((state: object) => {
-            return { [nameSpace]: { ...state[nameSpace], [attr]: i(t) } }
+            const data = { [nameSpace]: { ...state[nameSpace], [attr]: i(t) } }
+            return data
           })
         }
       }
