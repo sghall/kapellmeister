@@ -9,12 +9,10 @@ module.exports = {
             modules: false,
           },
         ],
-        '@babel/preset-react',
       ],
       plugins: [
-        '@babel/plugin-proposal-class-properties',
-        ['transform-react-remove-prop-types', { mode: 'wrap' }],
-        ['@babel/transform-runtime', { useESModules: true }],
+        '@babel/plugin-transform-typescript',
+        '@babel/plugin-proposal-class-properties'
       ],
     },
     cjs: {
@@ -26,11 +24,10 @@ module.exports = {
             modules: 'commonjs',
           },
         ],
-        '@babel/preset-react',
       ],
       plugins: [
-        '@babel/plugin-proposal-class-properties',
-        ['transform-react-remove-prop-types', { mode: 'wrap' }],
+        '@babel/plugin-transform-typescript',
+        '@babel/plugin-proposal-class-properties'
       ],
     },
     test: {
@@ -42,9 +39,11 @@ module.exports = {
             modules: 'commonjs',
           },
         ],
-        '@babel/preset-react',
       ],
-      plugins: ['@babel/plugin-proposal-class-properties'],
+      plugins: [
+        '@babel/plugin-transform-typescript',
+        '@babel/plugin-proposal-class-properties'
+      ],
     },
     coverage: {
       exclude: /node_modules/,
@@ -55,9 +54,9 @@ module.exports = {
             modules: 'commonjs',
           },
         ],
-        '@babel/preset-react',
       ],
       plugins: [
+        '@babel/plugin-transform-typescript',
         '@babel/plugin-proposal-class-properties',
         'babel-plugin-istanbul',
       ],
