@@ -21,17 +21,73 @@
   },
   "homepage": "https://github.com/sghall/kapellmeister#readme",
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
+    "docs": "cd docs && npm install && npm run start",
+    "prebuild": "npm run build:cln",
+    "build": "npm run build:lib && npm run build:cpy",
+    "build:cln": "rimraf build",
+    "build:lib": "node ./scripts/build.js",
+    "build:cpy": "cross-env BABEL_ENV=cjs babel-node ./scripts/copy-files.js",
+    "lint": "eslint --fix src docs/src test --quiet --cache && echo \"eslint: no lint errors\"",
+    "test": "cross-env BABEL_ENV=test mocha \"src/**/*.spec.js\"",
+    "test:watch": "npm run test -- -w",
+    "test:coverage": "cross-env BABEL_ENV=coverage nyc mocha \"src/**/*.spec.js\" && nyc report --reporter=lcov",
+    "test:coverage:html": "cross-env BABEL_ENV=coverage nyc mocha \"src/**/*.spec.js\" && nyc report --reporter=html",
+    "pretty": "prettier-eslint src/**/*.js --write --no-semi --single-quote --trailing-comma=all --print-width 80",
+    "pretty-docs": "prettier-eslint docs/src/**/*.js --write --no-semi --single-quote --trailing-comma=all --print-width 80",
     "copy": "cp dist/kapellmeister.js ../react-move/src/core/kapellmeister.js && cp dist/kapellmeister.js.map ../react-move/src/core/kapellmeister.js.map"
-  },
-  "devDependencies": {
-    "microbundle": "^0.9.0",
-    "tslint": "^5.12.1",
-    "typescript": "^3.2.4"
   },
   "dependencies": {
     "@types/d3-timer": "^1.0.8",
     "d3-timer": "^1.0.9"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-istanbul": "^5.1.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.21",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "eslint": "^5.12.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-react": "^7.12.3",
+    "husky": "^1.3.1",
+    "jsdom": "^13.1.0",
+    "lint-staged": "^8.1.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "prettier-eslint-cli": "^4.7.1",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.1.0",
+    "rollup-plugin-babel": "^4.3.0",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "rollup-plugin-size-snapshot": "^0.8.0",
+    "rollup-plugin-terser": "^4.0.2",
+    "rollup-plugin-uglify": "^6.0.1",
+    "sinon": "^7.2.2",
+    "webpack": "^4.28.4"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "**/*.spec.js"
+    ],
+    "sourceMap": false,
+    "instrument": false
   }
 }
