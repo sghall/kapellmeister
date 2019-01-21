@@ -53,4 +53,3 @@ export interface Config {
     | CustomInterpolator
     | NameSpace
 }
-
