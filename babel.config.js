@@ -12,7 +12,8 @@ module.exports = {
       ],
       plugins: [
         '@babel/plugin-transform-typescript',
-        '@babel/plugin-proposal-class-properties'
+        '@babel/plugin-proposal-class-properties',
+        ['@babel/plugin-transform-computed-properties', { loose: true }]
       ],
     },
     cjs: {
@@ -27,7 +28,8 @@ module.exports = {
       ],
       plugins: [
         '@babel/plugin-transform-typescript',
-        '@babel/plugin-proposal-class-properties'
+        '@babel/plugin-proposal-class-properties',
+        ['@babel/plugin-transform-computed-properties', { loose: true }]
       ],
     },
     test: {
@@ -42,7 +44,7 @@ module.exports = {
       ],
       plugins: [
         '@babel/plugin-transform-typescript',
-        '@babel/plugin-proposal-class-properties'
+        '@babel/plugin-proposal-class-properties',
       ],
     },
     coverage: {

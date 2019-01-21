@@ -32,7 +32,7 @@
     "test:watch": "npm run test -- -w",
     "test:coverage": "cross-env BABEL_ENV=coverage nyc mocha \"src/**/*.spec.js\" && nyc report --reporter=lcov",
     "test:coverage:html": "cross-env BABEL_ENV=coverage nyc mocha \"src/**/*.spec.js\" && nyc report --reporter=html",
-    "pretty": "prettier-eslint src/**/*.js --write --no-semi --single-quote --trailing-comma=all --print-width 80",
+    "pretty": "prettier-eslint src/**/*.ts --write --no-semi --single-quote --trailing-comma=all --print-width 80",
     "pretty-docs": "prettier-eslint docs/src/**/*.js --write --no-semi --single-quote --trailing-comma=all --print-width 80",
     "copy": "cp dist/kapellmeister.js ../react-move/src/core/kapellmeister.js && cp dist/kapellmeister.js.map ../react-move/src/core/kapellmeister.js.map"
   },
@@ -45,6 +45,7 @@
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-transform-computed-properties": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/plugin-transform-typescript": "^7.2.0",
     "@babel/preset-env": "^7.1.0",
@@ -72,7 +73,7 @@
     "rollup-plugin-terser": "^4.0.2",
     "rollup-plugin-uglify": "^6.0.1",
     "sinon": "^7.2.2",
-    "typescript": "^3.2.4",
+    "typescript": "^2.9.1",
     "webpack": "^4.28.4"
   },
   "nyc": {
