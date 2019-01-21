@@ -135,6 +135,34 @@ class BaseNode {
     })
   }
 
+  getTween(attr: string, endValue: any, nameSpace: string) {
+    return () => {
+      const begValue = nameSpace ? this.state[nameSpace][attr] : this.state[attr]
+
+      if (begValue === endValue) {
+        return null
+      }
+
+      const i = this.getInterpolator(attr, begValue, endValue)
+
+      let stateTween: (t: number) => void
+
+      if (nameSpace === null) {
+        stateTween = (t: number) => {
+          this.setState({ [attr]: i(t) })
+        }
+      } else {
+        stateTween = (t: number) => {
+          this.setState((state: object) => {
+            return { [nameSpace]: { ...state[nameSpace], [attr]: i(t) } }
+          })
+        }
+      }
+
+      return stateTween
+    }
+  }
+
   private update(transition: Transition) {
     if (!this.transitionData) {
       this.transitionData = {}
@@ -266,35 +294,6 @@ class BaseNode {
       delete this.transitionData[id]
       for (const i in this.transitionData) return
       delete this.transitionData
-    }
-  }
-
-  getTween(attr: string, value: any, nameSpace: string) {
-    return () => {
-      const value0 = nameSpace ? this.state[nameSpace][attr] : this.state[attr]
-
-      if (value0 === value) {
-        return null
-      }
-
-      const i = this.getInterpolator(attr, value0, value)
-
-      let stateTween: (t: number) => void
-
-      if (nameSpace === null) {
-        stateTween = (t: number) => {
-          this.setState({ [attr]: i(t) })
-        }
-      } else {
-        stateTween = (t: number) => {
-          this.setState((state: object) => {
-            const data = { [nameSpace]: { ...state[nameSpace], [attr]: i(t) } }
-            return data
-          })
-        }
-      }
-
-      return stateTween
     }
   }
 
