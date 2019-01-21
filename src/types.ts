@@ -19,26 +19,38 @@ export type Transition = {
   timing: Timing
   timer?: Timer
   tweens: Array<Interpolator>
-  events: TransitionEvents
+  events: Events
   stateKey: string
 }
 
-type TransitionEvents = {
+type Events = {
   start?: () => void
   interrupt?: () => void
   end?: () => void
 }
 
 export interface CustomInterpolator {
-  (t: number): any;
+  (t: number): any
 }
 
 export interface NameSpace {
-  [key: string]: Array<number> | Array<string> | number | string | CustomInterpolator ;
+  [key: string]:
+    | Array<number>
+    | Array<string>
+    | number
+    | string
+    | CustomInterpolator
 }
 
 export interface Config {
   timing?: Timing
-  events?: TransitionEvents
-  [key: string]: Array<number> | Array<string> | number | string | CustomInterpolator | NameSpace;
+  events?: Events
+  [key: string]:
+    | Array<number>
+    | Array<string>
+    | number
+    | string
+    | CustomInterpolator
+    | NameSpace
 }
+
