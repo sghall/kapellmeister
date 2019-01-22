@@ -1,11 +1,11 @@
 {
   "build/dist/kapellmeister.js": {
-    "bundled": 12585,
-    "minified": 4939,
-    "gzipped": 1923
+    "bundled": 12568,
+    "minified": 4930,
+    "gzipped": 1921
   },
   "build/dist/kapellmeister.min.js": {
-    "bundled": 4939,
+    "bundled": 4930,
     "minified": 4919,
     "gzipped": 1914
   }
