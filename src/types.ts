@@ -1,7 +1,6 @@
 import { Timer } from 'd3-timer'
 import Events from './Events'
 
-export type AttrValue = any
 export type EasingFunction = (t: number) => number
 export type Interpolator = (t: number) => void
 
