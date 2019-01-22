@@ -62,7 +62,7 @@ class BaseNode {
 
     const timing = {
       ...timingDefaults,
-      ...(clone.timing as object || {}),
+      ...((clone.timing as object) || {}),
       time: now(),
     }
 
@@ -138,7 +138,9 @@ class BaseNode {
 
   private getTween(attr: string, endValue: any, nameSpace: string) {
     return () => {
-      const begValue = nameSpace ? this.state[nameSpace][attr] : this.state[attr]
+      const begValue = nameSpace
+        ? this.state[nameSpace][attr]
+        : this.state[attr]
 
       if (begValue === endValue) {
         return null
