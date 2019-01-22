@@ -1,6 +1,7 @@
 import { now, timer, timeout } from 'd3-timer'
-import { once, timingDefaults, extend, getTransitionId } from './utils'
+import { timingDefaults, extend, getTransitionId } from './utils'
 import { Config, Transition } from './types'
+import Events from './Events'
 
 class BaseNode {
   state: object
@@ -42,36 +43,36 @@ class BaseNode {
     }
   }
 
+  getInterpolator(
+    attr: string,
+    begValue: any,
+    endValue: any,
+  ): (t: number) => any {
+    throw new Error('You must implement getInterpolator.')
+  }
+
   private parse(config: Config) {
-    const transitions = { ...config }
+    const clone = { ...config }
 
-    const events = transitions.events || {}
+    const events = new Events(clone)
 
-    if (transitions.events) {
-      delete transitions.events
+    if (clone.events) {
+      delete clone.events
     }
 
     const timing = {
       ...timingDefaults,
-      ...(transitions.timing || {}),
+      ...(clone.timing as object || {}),
       time: now(),
     }
 
-    if (transitions.timing) {
-      delete transitions.timing
+    if (clone.timing) {
+      delete clone.timing
     }
 
-    Object.keys(events).forEach(d => {
-      if (typeof events[d] !== 'function') {
-        throw new Error('Event handlers must be a function')
-      } else {
-        events[d] = once(events[d])
-      }
-    })
-
-    Object.keys(transitions).forEach(stateKey => {
+    Object.keys(clone).forEach(stateKey => {
       const tweens = []
-      const next = transitions[stateKey]
+      const next = clone[stateKey]
 
       if (typeof next === 'object' && Array.isArray(next) === false) {
         Object.keys(next).forEach(attr => {
@@ -135,7 +136,7 @@ class BaseNode {
     })
   }
 
-  getTween(attr: string, endValue: any, nameSpace: string) {
+  private getTween(attr: string, endValue: any, nameSpace: string) {
     return () => {
       const begValue = nameSpace ? this.state[nameSpace][attr] : this.state[attr]
 
@@ -295,14 +296,6 @@ class BaseNode {
       for (const i in this.transitionData) return
       delete this.transitionData
     }
-  }
-
-  getInterpolator(
-    attr: string,
-    begValue: any,
-    endValue: any,
-  ): (t: number) => any {
-    throw new Error('You must implement getInterpolator.')
   }
 }
 
