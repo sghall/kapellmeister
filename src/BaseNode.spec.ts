@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-
+const sinon = require('sinon')
 import { assert } from 'chai'
 import BaseNode from './BaseNode'
 
@@ -69,5 +69,79 @@ describe('BaseNode', () => {
       assert.strictEqual(node.state.y, 1)
       done()
     }, 300)
+  })
+
+  it('should call start event', done => {
+    const spy = sinon.spy()
+
+    const node = new Node()
+    node.setState({ x: 0, y: 0 })
+    node.transition({
+      x: [1],
+      y: [1],
+      events: {
+        start: spy
+      }
+    })
+
+    setTimeout(() => {
+      assert.strictEqual(spy.callCount, 1)
+      done()
+    }, 100)
+  })
+
+  it('should NOT call interrupt when no update occurs', done => {
+    const startSpy = sinon.spy()
+    const interruptSpy = sinon.spy()
+
+    const node = new Node()
+    node.setState({ x: 0, y: 0 })
+    node.transition({
+      x: [1],
+      y: [1],
+      events: {
+        start: startSpy,
+        interrupt: interruptSpy
+      }
+    })
+
+    setTimeout(() => {
+      assert.strictEqual(startSpy.callCount, 1)
+      assert.strictEqual(interruptSpy.callCount, 0)
+      done()
+    }, 100)
+  })
+
+  it('should call interrupt when update occurs', done => {
+    const startSpy = sinon.spy()
+    const interruptSpy = sinon.spy()
+
+    const node = new Node()
+    node.setState({ x: 0, y: 0 })
+    node.transition({
+      x: [1],
+      y: [1],
+      events: {
+        start: startSpy,
+        interrupt: interruptSpy
+      }
+    })
+
+    setTimeout(() => {
+      node.transition({
+        x: [2],
+        y: [2],
+        events: {
+          start: startSpy,
+          interrupt: interruptSpy
+        }
+      })
+    }, 100)
+
+    setTimeout(() => {
+      assert.strictEqual(startSpy.callCount, 2)
+      assert.strictEqual(interruptSpy.callCount, 1)
+      done()
+    }, 200)
   })
 })
