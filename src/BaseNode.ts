@@ -1,13 +1,13 @@
 import { now, timer, timeout } from 'd3-timer'
 import { timingDefaults, extend, getTransitionId } from './utils'
-import { Config, Transition } from './types'
+import { Config, Transition, HashMap } from './types'
 import Events from './Events'
 
 class BaseNode {
-  state: object
+  state: HashMap
   private transitionData: object
 
-  constructor(state?: object) {
+  constructor(state?: HashMap) {
     this.state = state || {}
   }
 
@@ -35,7 +35,7 @@ class BaseNode {
     }
   }
 
-  setState(update: object) {
+  setState(update: any) {
     if (typeof update === 'function') {
       extend(this.state, update(this.state))
     } else {
