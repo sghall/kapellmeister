@@ -1,6 +1,6 @@
 {
   "name": "kapellmeister",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "description": "Orchestration For Animated Transitions",
   "source": "src/index.ts",
   "typings": "index.d.ts",
