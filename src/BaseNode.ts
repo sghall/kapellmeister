@@ -266,9 +266,7 @@ class BaseNode {
       let t = 1
 
       if (elapsed < transition.timing.duration) {
-        t = transition.timing.ease(
-          elapsed / transition.timing.duration,
-        )
+        t = transition.timing.ease(elapsed / transition.timing.duration)
       } else {
         transition.timer.restart(stop)
         transition.status = 5
