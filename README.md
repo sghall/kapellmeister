@@ -1,5 +1,5 @@
 <div style="text-align:center;">
-  <img src="https://user-images.githubusercontent.com/4615775/51507348-bbdecf80-1dad-11e9-8240-ea543a6b27d3.png" alt="Kapellmeister" style="width:450px;"/>
+  <img src="https://user-images.githubusercontent.com/4615775/51508153-4ffe6600-1db1-11e9-997a-b2d496effdbf.png" alt="Kapellmeister" style="width:450px;"/>
 </div>
 
 # Kapellmeister
