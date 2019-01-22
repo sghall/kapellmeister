@@ -6,12 +6,10 @@ export function getTransitionId() {
   return ++transitionId
 }
 
-export function extend(obj: object, props: object): object {
+export function extend(obj: object, props: object) {
   for (const i in props) {
     obj[i] = props[i]
   }
-
-  return obj
 }
 
 export function once(func: () => void): () => void {
