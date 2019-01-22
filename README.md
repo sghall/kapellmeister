@@ -11,6 +11,11 @@
 ![gzip size](http://img.badgesize.io/https://npmcdn.com/kapellmeister/dist/kapellmeister.min.js?compression=gzip)
 
 
+```
+npm install kapellmeister
+```
+
+
 ### UNSTABLE - This will break.
 
 
