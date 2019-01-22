@@ -9,7 +9,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/kapellmeister.svg)](https://www.npmjs.com/package/kapellmeister)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/sghall/kapellmeister/blob/master/LICENSE)
 ![gzip size](http://img.badgesize.io/https://npmcdn.com/kapellmeister/dist/kapellmeister.min.js?compression=gzip)
-[![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/kapellmeister)
+
 
 ### UNSTABLE - This will break.
 
