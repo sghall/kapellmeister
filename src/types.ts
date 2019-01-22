@@ -18,7 +18,7 @@ export interface Transition {
   status: number
   timing: Timing
   timer?: Timer
-  tweens: Array<Interpolator>
+  tweens: Array<() => Interpolator>
   events: Events
   stateKey: string
 }

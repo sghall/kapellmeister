@@ -252,7 +252,7 @@ class BaseNode {
       let j = -1
 
       for (let i = 0; i < n; ++i) {
-        const res = transition.tweens[i].call(this)
+        const res = transition.tweens[i]()
 
         if (res) {
           tweens[++j] = res
@@ -266,8 +266,7 @@ class BaseNode {
       let t = 1
 
       if (elapsed < transition.timing.duration) {
-        t = transition.timing.ease.call(
-          null,
+        t = transition.timing.ease(
           elapsed / transition.timing.duration,
         )
       } else {
@@ -278,7 +277,7 @@ class BaseNode {
       let i = -1
 
       while (++i < tweens.length) {
-        tweens[i].call(null, t)
+        tweens[i](t)
       }
 
       if (transition.status === 5) {
