@@ -1,6 +1,9 @@
 import { Timer } from 'd3-timer'
 import Events from './Events'
 
+export { default as BaseNode } from './BaseNode'
+export { now, Timer, timer, interval, timeout } from 'd3-timer'
+
 export type EasingFunction = (t: number) => number
 export type Interpolator = (t: number) => void
 

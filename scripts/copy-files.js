@@ -91,20 +91,12 @@ function createPackageFile() {
 
 const files = ['README.md', 'LICENSE']
 
-// const types = [
-//   ['src/index.d.ts', 'index.d.ts'],
-//   ['src/Slider/index.d.ts', 'Slider/index.d.ts'],
-//   ['src/Slider/Slider.d.ts', 'Slider/Slider.d.ts'],
-//   ['src/Rail/index.d.ts', 'Rail/index.d.ts'],
-//   ['src/Rail/Rail.d.ts', 'Rail/Rail.d.ts'],
-//   ['src/Handles/index.d.ts', 'Handles/index.d.ts'],
-//   ['src/Handles/Handles.d.ts', 'Handles/Handles.d.ts'],
-//   ['src/Tracks/index.d.ts', 'Tracks/index.d.ts'],
-//   ['src/Tracks/Tracks.d.ts', 'Tracks/Tracks.d.ts'],
-//   ['src/Ticks/index.d.ts', 'Ticks/index.d.ts'],
-//   ['src/Ticks/Ticks.d.ts', 'Ticks/Ticks.d.ts'],
-// ]
+const types = [
+  ['src/types.ts', 'index.d.ts'],
+  ['src/BaseNode.ts', 'BaseNode.ts'],
+  ['src/Events.ts', 'Events.ts'],
+]
 
 Promise.all(files.map(file => copyFile(file)))
-  // .then(() => Promise.all(types.map(file => copyTypes(...file))))
+  .then(() => Promise.all(types.map(file => copyTypes(...file))))
   .then(() => createPackageFile())
