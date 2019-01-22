@@ -1,6 +1,10 @@
 import { Timer } from 'd3-timer'
 import Events from './Events'
 
+export interface HashMap {
+  [key: string]: string | number | HashMap
+}
+
 export { default as BaseNode } from './BaseNode'
 export { now, Timer, timer, interval, timeout } from 'd3-timer'
 
