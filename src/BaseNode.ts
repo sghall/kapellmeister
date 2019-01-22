@@ -13,8 +13,8 @@ class BaseNode {
 
   transition(config: Array<Config> | Config) {
     if (Array.isArray(config)) {
-      for (let i = 0; i < config.length; i++) {
-        this.parse(config[i])
+      for (const item of config) {
+        this.parse(item)
       }
     } else {
       this.parse(config)

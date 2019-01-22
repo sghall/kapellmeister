@@ -5,6 +5,7 @@
       "no-unused-expression": true
     },
     "rules": {
+      "forin": false,
       "semicolon": [true, "never"],
       "eofline": false,
       "quotemark": [true, "single"],
