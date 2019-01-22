@@ -25,10 +25,10 @@
     "build:cln": "rimraf build",
     "build:lib": "node ./scripts/build.js",
     "build:cpy": "cross-env BABEL_ENV=cjs babel-node ./scripts/copy-files.js",
-    "test": "cross-env BABEL_ENV=test mocha --require ts-node/register \"src/**/*.spec.ts\"",
+    "test": "cross-env BABEL_ENV=test mocha \"src/**/*.spec.ts\"",
     "test:watch": "npm run test -- -w",
     "lint": "tslint -p tsconfig.json -c tslint.json \"src/**/*.ts\" -e \"*.spec.ts\"",
-    "test:coverage": "cross-env BABEL_ENV=coverage nyc mocha \"src/**/*.spec.js\" && nyc report --reporter=lcov",
+    "test:coverage": "cross-env nyc mocha \"src/**/*.spec.ts\" && nyc report --reporter=lcov",
     "test:coverage:html": "cross-env BABEL_ENV=coverage nyc mocha \"src/**/*.spec.js\" && nyc report --reporter=html",
     "pretty": "prettier src/**/*.ts --write --no-semi --single-quote --trailing-comma=all --print-width 80",
     "copy": "cp -r build/.  ../react-move/node_modules/kapellmeister/"
@@ -69,19 +69,23 @@
     "rollup-plugin-terser": "^4.0.2",
     "rollup-plugin-uglify": "^6.0.1",
     "sinon": "^7.2.2",
+    "source-map-support": "^0.5.10",
     "ts-node": "^8.0.1",
     "tslint": "^5.12.1",
     "typescript": "^2.9.2",
     "webpack": "^4.28.4"
   },
   "nyc": {
-    "include": [
-      "src/**/*.js"
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "include" : [
+      "src/**/*.ts"
     ],
     "exclude": [
-      "**/*.spec.js"
+      "**/*.spec.ts"
     ],
-    "sourceMap": false,
-    "instrument": false
+    "all": true  
   }
 }
