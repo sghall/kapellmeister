@@ -21,4 +21,4 @@
 
 
 
-conductor by Arthur Shlain from the Noun Project
+Conductor Art by Arthur Shlain from the Noun Project
