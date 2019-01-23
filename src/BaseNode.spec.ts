@@ -144,4 +144,24 @@ describe('BaseNode', () => {
       done()
     }, 200)
   })
+
+  it('should transition the object given to it', done => {
+    const userObject = {
+      x: 0,
+      y: 0
+    }
+
+    const node = new Node(userObject)
+
+    node.transition({
+      x: [1],
+      y: [1]
+    })
+
+    setTimeout(() => {
+      assert.strictEqual(userObject.x, 1)
+      assert.strictEqual(userObject.y, 1)
+      done()
+    }, 300)
+  })
 })
