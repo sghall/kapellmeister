@@ -22,7 +22,7 @@ import { interpolateNumber } from 'd3-interpolate'
 import { BaseNode } from 'kapellmeister'
 
 class Node extends BaseNode {
-  getInterpolator(attr: string, a: number, b: number) {
+  getInterpolator(attr, a, b) {
     return interpolateNumber(a, b)
   }
 }
