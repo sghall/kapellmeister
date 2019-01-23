@@ -10,7 +10,7 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/sghall/kapellmeister/blob/master/LICENSE)
 ![gzip size](http://img.badgesize.io/https://npmcdn.com/kapellmeister/dist/kapellmeister.min.js?compression=gzip)
 
-Orchestration of animated transitions.  This is the code that powers react-move.
+Orchestration for animated transitions.  This is the code that powers react-move.
 
 ```
 npm install kapellmeister
