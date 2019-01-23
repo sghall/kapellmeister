@@ -10,13 +10,36 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/sghall/kapellmeister/blob/master/LICENSE)
 ![gzip size](http://img.badgesize.io/https://npmcdn.com/kapellmeister/dist/kapellmeister.min.js?compression=gzip)
 
+Orchestration of animated transitions.  This is the code that powers react-move.
 
 ```
 npm install kapellmeister
 ```
 
+### Example Usage
+```js
+import { interpolateNumber } from 'd3-interpolate'
+import { BaseNode } from 'kapellmeister'
 
-### UNSTABLE - This will break.
+class Node extends BaseNode {
+  getInterpolator(attr: string, a: number, b: number) {
+    return interpolateNumber(a, b)
+  }
+}
+
+const data = {
+  x: 0,
+  y: 0
+ }
+
+const node = new Node(data)
+
+node.transition({
+  x: [1],
+  y: [1]
+})
+```
+
 
 
 
