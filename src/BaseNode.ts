@@ -44,9 +44,10 @@ class BaseNode {
   }
 
   getInterpolator(
-    attr: string,
     begValue: any,
     endValue: any,
+    attr: string,
+    nameSpace: string,
   ): (t: number) => any {
     throw new Error('You must implement getInterpolator.')
   }
@@ -146,7 +147,7 @@ class BaseNode {
         return null
       }
 
-      const i = this.getInterpolator(attr, begValue, endValue)
+      const i = this.getInterpolator(begValue, endValue, attr, nameSpace)
 
       let stateTween: (t: number) => void
 

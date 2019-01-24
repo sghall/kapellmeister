@@ -10,7 +10,7 @@ const interpolateNumber = function(a: number, b: number) {
 }
 
 class Node extends BaseNode {
-  getInterpolator(attr: string, a: number, b: number) {
+  getInterpolator(a: number, b: number, attr: string, namespace: string) {
     return interpolateNumber(a, b)
   }
 }
