@@ -2,7 +2,7 @@ import { Timer } from 'd3-timer'
 import Events from './Events'
 
 export interface HashMap {
-  [key: string]: string | number | HashMap
+  [key: string]: any
 }
 
 export { default as BaseNode } from './BaseNode'

@@ -15,7 +15,7 @@ class Node extends BaseNode {
   }
 }
 
-describe('BaseNode', () => {
+describe('<class BaseNode>', () => {
   it('should instantiate without error', () => {
     const node = new Node()
     assert.isDefined(node)
@@ -161,6 +161,66 @@ describe('BaseNode', () => {
     setTimeout(() => {
       assert.strictEqual(userObject.x, 1)
       assert.strictEqual(userObject.y, 1)
+      done()
+    }, 300)
+  })
+
+  it('should transition namespaced items', done => {
+    const node = new Node()
+    node.setState({
+      ns1: {
+        x: 1,
+        y: 2
+      },
+      ns2: {
+        x: 3,
+        y: 4
+      }
+    })
+
+    node.transition({
+      ns1: {
+        x: [100],
+      },
+      ns2: {
+        x: [30],
+        y: [40, 100]
+      }
+    })
+
+    setTimeout(() => {
+      assert.strictEqual(node.state.ns1.x, 100)
+      assert.strictEqual(node.state.ns1.y, 2)
+      assert.strictEqual(node.state.ns2.x, 30)
+      assert.strictEqual(node.state.ns2.y, 100)
+      done()
+    }, 300)
+  })
+
+  it('should transition mixed attr and namespaced items', done => {
+    const node = new Node()
+    node.setState({
+      x: 1,
+      y: 2,
+      ns1: {
+        x: 3,
+        y: 4
+      }
+    })
+
+    node.transition({
+      x: [100],
+      ns1: {
+        x: [30],
+        y: [40, 100]
+      }
+    })
+
+    setTimeout(() => {
+      assert.strictEqual(node.state.x, 100)
+      assert.strictEqual(node.state.y, 2)
+      assert.strictEqual(node.state.ns1.x, 30)
+      assert.strictEqual(node.state.ns1.y, 100)
       done()
     }, 300)
   })
