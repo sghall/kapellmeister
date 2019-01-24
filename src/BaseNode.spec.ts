@@ -224,4 +224,61 @@ describe('<class BaseNode>', () => {
       done()
     }, 300)
   })
+
+  it('should send correct attr and namespace to getInterpolator', done => {
+    let sentX = false 
+    let sentY = false 
+
+    let sentNsX = false
+    let sentNsY = false
+
+    class Node extends BaseNode {
+      getInterpolator(a: number, b: number, attr: string, namespace: string) {
+        if (attr === 'x' && namespace === null) {
+          sentX = true
+        }
+
+        if (attr === 'y' && namespace === null) {
+          sentY = true
+        }
+
+        if (attr === 'x' && namespace === 'ns') {
+          sentNsX = true
+        }
+
+        if (attr === 'y' && namespace === 'ns') {
+          sentNsY = true
+        }
+
+        return interpolateNumber(a, b)
+      }
+    }
+
+    const node = new Node()
+    
+    node.setState({
+      x: 1,
+      y: 2,
+      ns: {
+        x: 3,
+        y: 4
+      }
+    })
+
+    node.transition({
+      x: [100],
+      ns: {
+        x: [30],
+        y: [40, 100]
+      }
+    })
+
+    setTimeout(() => {
+      assert.strictEqual(sentX, true, 'sentX')
+      assert.strictEqual(sentY, false, 'sentY')
+      assert.strictEqual(sentNsX, true, 'sentNsX')
+      assert.strictEqual(sentNsY, true, 'sentNsY')
+      done()
+    }, 300)
+  })
 })
