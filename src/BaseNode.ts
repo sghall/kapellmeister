@@ -1,6 +1,6 @@
 import { now, timer, timeout } from 'd3-timer'
 import { timingDefaults, extend, getTransitionId } from './utils'
-import { Config, Transition, HashMap } from './types'
+import { Config, Transition, HashMap, Tween } from './types'
 import Events from './Events'
 
 class BaseNode {
@@ -72,7 +72,7 @@ class BaseNode {
     }
 
     Object.keys(clone).forEach(stateKey => {
-      const tweens = []
+      const tweens: Tween[] = []
       const next = clone[stateKey]
 
       if (typeof next === 'object' && Array.isArray(next) === false) {
@@ -293,7 +293,7 @@ class BaseNode {
       transition.timer.stop()
 
       delete this.transitionData[id]
-      for (const i in this.transitionData) return
+      for (const _ in this.transitionData) return
       delete this.transitionData
     }
   }

@@ -10,6 +10,7 @@ export { now, Timer, timer, interval, timeout } from 'd3-timer'
 
 export type EasingFunction = (t: number) => number
 export type Interpolator = (t: number) => void
+export type Tween = () => (t: number) => void
 
 export interface Timing {
   time: number
