@@ -65,7 +65,7 @@ function createPackageFile() {
         main: 'index.js',
         module: 'es/index.js',
         'jsnext:main': 'es/index.js',
-        types: 'index.d.ts',
+        types: 'types.d.ts',
         keywords,
         repository,
         license,
@@ -92,7 +92,7 @@ function createPackageFile() {
 const files = ['README.md', 'LICENSE']
 
 const types = [
-  ['src/types.ts', 'index.d.ts'],
+  ['src/types.ts', 'types.d.ts'],
   ['src/BaseNode.ts', 'BaseNode.ts'],
   ['src/Events.ts', 'Events.ts'],
 ]
