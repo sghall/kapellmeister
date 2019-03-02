@@ -12,7 +12,6 @@
     "sourceMap": true,
     "allowJs": false,
     "outDir": "dist",
-    "suppressImplicitAnyIndexErrors": true,
     "lib": [
       "es7"
     ]

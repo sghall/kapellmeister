@@ -1,11 +1,24 @@
 import { now, timer, timeout } from 'd3-timer'
-import { timingDefaults, extend, getTransitionId } from './utils'
+import { timingDefaults, extend, getTransitionId, isNamespace } from './utils'
 import { Config, Transition, HashMap, Tween } from './types'
 import Events from './Events'
 
-class BaseNode {
+export interface TransitionData {
+  [key: string]: Transition
+}
+
+export interface Node {
+  getInterpolator(
+    begValue: any,
+    endValue: any,
+    attr: string,
+    nameSpace: string | null,
+  ): (t: number) => any
+}
+
+abstract class BaseNode implements Node {
   state: HashMap
-  private transitionData: object
+  private transitionData?: TransitionData
 
   constructor(state?: HashMap) {
     this.state = state || {}
@@ -43,14 +56,12 @@ class BaseNode {
     }
   }
 
-  getInterpolator(
+  abstract getInterpolator(
     begValue: any,
     endValue: any,
     attr: string,
-    nameSpace: string,
-  ): (t: number) => any {
-    throw new Error('You must implement getInterpolator.')
-  }
+    nameSpace: string | null,
+  ): (t: number) => any
 
   private parse(config: Config) {
     const clone = { ...config }
@@ -75,7 +86,7 @@ class BaseNode {
       const tweens: Tween[] = []
       const next = clone[stateKey]
 
-      if (typeof next === 'object' && Array.isArray(next) === false) {
+      if (isNamespace(next)) {
         Object.keys(next).forEach(attr => {
           const val = next[attr]
 
@@ -83,7 +94,7 @@ class BaseNode {
             if (val.length === 1) {
               tweens.push(this.getTween(attr, val[0], stateKey))
             } else {
-              this.setState((state: object) => {
+              this.setState((state: HashMap) => {
                 return { [stateKey]: { ...state[stateKey], [attr]: val[0] } }
               })
 
@@ -92,7 +103,7 @@ class BaseNode {
           } else if (typeof val === 'function') {
             const getNameSpacedCustomTween = () => {
               const kapellmeisterNamespacedTween = (t: number) => {
-                this.setState((state: object) => {
+                this.setState((state: HashMap) => {
                   return { [stateKey]: { ...state[stateKey], [attr]: val(t) } }
                 })
               }
@@ -102,7 +113,7 @@ class BaseNode {
 
             tweens.push(getNameSpacedCustomTween)
           } else {
-            this.setState((state: object) => {
+            this.setState((state: HashMap) => {
               return { [stateKey]: { ...state[stateKey], [attr]: val } }
             })
 
@@ -137,7 +148,7 @@ class BaseNode {
     })
   }
 
-  private getTween(attr: string, endValue: any, nameSpace: string) {
+  private getTween(attr: string, endValue: any, nameSpace: string | null): Tween {
     return () => {
       const begValue = nameSpace
         ? this.state[nameSpace][attr]
@@ -157,7 +168,7 @@ class BaseNode {
         }
       } else {
         stateTween = (t: number) => {
-          this.setState((state: object) => {
+          this.setState((state: HashMap) => {
             return { [nameSpace]: { ...state[nameSpace], [attr]: i(t) } }
           })
         }
