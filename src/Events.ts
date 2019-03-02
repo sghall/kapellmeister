@@ -9,7 +9,7 @@ export interface Eventable {
 }
 
 export class Events implements Eventable {
-  start: (() => void) | null
+  start: () => void
   interrupt: () => void
   end: () => void
 
