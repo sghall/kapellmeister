@@ -10,7 +10,7 @@ export { now, Timer, timer, interval, timeout } from 'd3-timer'
 
 export type EasingFunction = (t: number) => number
 export type Interpolator = (t: number) => void
-export type Tween = () => (t: number) => void
+export type Tween = () => ((t: number) => void) | null
 
 export interface Timing {
   time: number
@@ -47,6 +47,10 @@ export interface Config {
     | string
     | CustomInterpolator
     | NameSpace
-    | Events
     | Timing
+  events  ?: Events
+}
+
+export interface Indexable {
+  [key: string]: any
 }

@@ -3,9 +3,13 @@ import { timingDefaults, extend, getTransitionId } from './utils'
 import { Config, Transition, HashMap, Tween } from './types'
 import Events from './Events'
 
+export interface TransitionData {
+  [key: string]: Transition
+}
+
 class BaseNode {
   state: HashMap
-  private transitionData: object
+  private transitionData?: TransitionData
 
   constructor(state?: HashMap) {
     this.state = state || {}
@@ -43,11 +47,13 @@ class BaseNode {
     }
   }
 
+  // TODO: none of these destructured values are ever used
+  // should they be here?
   getInterpolator(
     begValue: any,
     endValue: any,
     attr: string,
-    nameSpace: string,
+    nameSpace: string | null,
   ): (t: number) => any {
     throw new Error('You must implement getInterpolator.')
   }
@@ -77,13 +83,14 @@ class BaseNode {
 
       if (typeof next === 'object' && Array.isArray(next) === false) {
         Object.keys(next).forEach(attr => {
-          const val = next[attr]
+          // TODO: could not quite understand what next is here
+          const val = (next as any)[attr]
 
           if (Array.isArray(val)) {
             if (val.length === 1) {
               tweens.push(this.getTween(attr, val[0], stateKey))
             } else {
-              this.setState((state: object) => {
+              this.setState((state: HashMap) => {
                 return { [stateKey]: { ...state[stateKey], [attr]: val[0] } }
               })
 
@@ -92,7 +99,7 @@ class BaseNode {
           } else if (typeof val === 'function') {
             const getNameSpacedCustomTween = () => {
               const kapellmeisterNamespacedTween = (t: number) => {
-                this.setState((state: object) => {
+                this.setState((state: HashMap) => {
                   return { [stateKey]: { ...state[stateKey], [attr]: val(t) } }
                 })
               }
@@ -102,7 +109,7 @@ class BaseNode {
 
             tweens.push(getNameSpacedCustomTween)
           } else {
-            this.setState((state: object) => {
+            this.setState((state: HashMap) => {
               return { [stateKey]: { ...state[stateKey], [attr]: val } }
             })
 
@@ -137,7 +144,7 @@ class BaseNode {
     })
   }
 
-  private getTween(attr: string, endValue: any, nameSpace: string) {
+  private getTween(attr: string, endValue: any, nameSpace: string | null): Tween {
     return () => {
       const begValue = nameSpace
         ? this.state[nameSpace][attr]
@@ -157,7 +164,7 @@ class BaseNode {
         }
       } else {
         stateTween = (t: number) => {
-          this.setState((state: object) => {
+          this.setState((state: HashMap) => {
             return { [nameSpace]: { ...state[nameSpace], [attr]: i(t) } }
           })
         }

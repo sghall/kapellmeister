@@ -1,4 +1,4 @@
-import { EasingFunction } from './types'
+import { EasingFunction, Indexable } from './types'
 
 let transitionId = 0
 
@@ -6,7 +6,7 @@ export function getTransitionId() {
   return ++transitionId
 }
 
-export function extend(obj: object, props: object) {
+export function extend(obj: Indexable, props: Indexable) {
   for (const i in props) {
     obj[i] = props[i]
   }
