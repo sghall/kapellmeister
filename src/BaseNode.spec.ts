@@ -1,11 +1,13 @@
 /* eslint-env mocha */
-const sinon = require('sinon')
 import { assert } from 'chai'
 import BaseNode from './BaseNode'
 
-const interpolateNumber = function(a: number, b: number) {
-  return a = +a, b -= a, function(t: number) {
-    return a + b * t;
+// tslint:disable:no-var-requires
+const sinon = require('sinon')
+
+const interpolateNumber = (a: number, b: number) => {
+  return a = +a, b -= a, (t: number) => {
+    return a + b * t
   }
 }
 
@@ -80,8 +82,10 @@ describe('<class BaseNode>', () => {
       x: [1],
       y: [1],
       events: {
-        start: spy
-      }
+        start: spy,
+        interrupt: () => {},
+        end: () => {}
+      },
     })
 
     setTimeout(() => {
@@ -101,7 +105,8 @@ describe('<class BaseNode>', () => {
       y: [1],
       events: {
         start: startSpy,
-        interrupt: interruptSpy
+        interrupt: interruptSpy,
+        end: () => {}
       }
     })
 
@@ -123,7 +128,8 @@ describe('<class BaseNode>', () => {
       y: [1],
       events: {
         start: startSpy,
-        interrupt: interruptSpy
+        interrupt: interruptSpy,
+        end: () => {}
       }
     })
 
@@ -133,7 +139,8 @@ describe('<class BaseNode>', () => {
         y: [2],
         events: {
           start: startSpy,
-          interrupt: interruptSpy
+          interrupt: interruptSpy,
+          end: () => {}
         }
       })
     }, 100)
@@ -226,13 +233,14 @@ describe('<class BaseNode>', () => {
   })
 
   it('should send correct attr and namespace to getInterpolator', done => {
-    let sentX = false 
-    let sentY = false 
+    let sentX = false
+    let sentY = false
 
     let sentNsX = false
     let sentNsY = false
 
-    class Node extends BaseNode {
+    // tslint:disable:max-classes-per-file
+    class NamespaceNode extends BaseNode {
       getInterpolator(a: number, b: number, attr: string, namespace: string) {
         if (attr === 'x' && namespace === null) {
           sentX = true
@@ -254,8 +262,8 @@ describe('<class BaseNode>', () => {
       }
     }
 
-    const node = new Node()
-    
+    const node = new NamespaceNode()
+
     node.setState({
       x: 1,
       y: 2,

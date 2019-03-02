@@ -1,5 +1,5 @@
 import { Timer } from 'd3-timer'
-import Events from './Events'
+import Events, { Eventable } from './Events'
 
 export interface HashMap {
   [key: string]: any
@@ -30,25 +30,26 @@ export interface Transition {
 
 export type CustomInterpolator = (t: number) => any
 
+export type NameSpaceType = number[]
+  | string[]
+  | number
+  | string
+  | CustomInterpolator
+
 export interface NameSpace {
-  [key: string]:
-    | Array<number>
-    | Array<string>
-    | number
-    | string
-    | CustomInterpolator
+  [key: string]: NameSpaceType
 }
 
 export interface Config {
   [key: string]:
-    | Array<number>
-    | Array<string>
+    | number[]
+    | string[]
     | number
     | string
     | CustomInterpolator
     | NameSpace
     | Timing
-  events  ?: Events
+  events?: Eventable
 }
 
 export interface Indexable {

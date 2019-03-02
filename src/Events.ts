@@ -3,10 +3,13 @@ import { Config } from './types'
 
 export interface Eventable {
   [key: string]: () => void
+  start: () => void
+  interrupt: () => void
+  end: () => void
 }
 
 export class Events implements Eventable {
-  start: () => void
+  start: (() => void) | null
   interrupt: () => void
   end: () => void
 

@@ -1,5 +1,5 @@
 import { now, timer, timeout } from 'd3-timer'
-import { timingDefaults, extend, getTransitionId } from './utils'
+import { timingDefaults, extend, getTransitionId, isNamespace } from './utils'
 import { Config, Transition, HashMap, Tween } from './types'
 import Events from './Events'
 
@@ -7,7 +7,16 @@ export interface TransitionData {
   [key: string]: Transition
 }
 
-class BaseNode {
+export interface Node {
+  getInterpolator(
+    begValue: any,
+    endValue: any,
+    attr: string,
+    nameSpace: string | null,
+  ): (t: number) => any
+}
+
+abstract class BaseNode implements Node {
   state: HashMap
   private transitionData?: TransitionData
 
@@ -47,16 +56,12 @@ class BaseNode {
     }
   }
 
-  // TODO: none of these destructured values are ever used
-  // should they be here?
-  getInterpolator(
+  abstract getInterpolator(
     begValue: any,
     endValue: any,
     attr: string,
     nameSpace: string | null,
-  ): (t: number) => any {
-    throw new Error('You must implement getInterpolator.')
-  }
+  ): (t: number) => any
 
   private parse(config: Config) {
     const clone = { ...config }
@@ -81,10 +86,9 @@ class BaseNode {
       const tweens: Tween[] = []
       const next = clone[stateKey]
 
-      if (typeof next === 'object' && Array.isArray(next) === false) {
+      if (isNamespace(next)) {
         Object.keys(next).forEach(attr => {
-          // TODO: could not quite understand what next is here
-          const val = (next as any)[attr]
+          const val = next[attr]
 
           if (Array.isArray(val)) {
             if (val.length === 1) {
