@@ -25,10 +25,9 @@
     "build:cln": "rimraf build",
     "build:lib": "node ./scripts/build.js",
     "build:cpy": "cross-env BABEL_ENV=cjs babel-node ./scripts/copy-files.js",
-    "test": "cross-env BABEL_ENV=test mocha \"src/**/*.spec.ts\"",
+    "test": "cross-env BABEL_ENV=test mocha \"src/**/*.spec.js\"",
     "test:watch": "npm run test -- -w",
-    "lint": "tslint -p tsconfig.json -c tslint.json \"src/**/*.ts\" -e \"*.spec.ts\"",
-    "test:coverage": "cross-env nyc mocha \"src/**/*.spec.ts\" && nyc report --reporter=lcov",
+    "test:coverage": "cross-env nyc mocha \"src/**/*.spec.js\" && nyc report --reporter=lcov",
     "test:coverage:html": "cross-env BABEL_ENV=coverage nyc mocha \"src/**/*.spec.js\" && nyc report --reporter=html",
     "pretty": "prettier src/**/*.ts --write --no-semi --single-quote --trailing-comma=all --print-width 80",
     "copy": "cp -r build/.  ../react-move/node_modules/kapellmeister/"
@@ -44,7 +43,6 @@
     "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-transform-computed-properties": "^7.2.0",
     "@babel/plugin-transform-runtime": "^7.3.4",
-    "@babel/plugin-transform-typescript": "^7.3.2",
     "@babel/preset-env": "^7.3.4",
     "@babel/register": "^7.0.0",
     "@types/chai": "^4.1.7",
@@ -71,9 +69,7 @@
     "rollup-plugin-uglify": "^6.0.2",
     "sinon": "^7.2.6",
     "source-map-support": "^0.5.10",
-    "ts-node": "^8.0.2",
     "tslint": "^5.13.1",
-    "typescript": "^3.3.3333",
     "webpack": "^4.29.6"
   },
   "nyc": {
