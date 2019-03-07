@@ -65,7 +65,6 @@ function createPackageFile() {
         main: 'index.js',
         module: 'es/index.js',
         'jsnext:main': 'es/index.js',
-        types: 'types.d.ts',
         keywords,
         repository,
         license,
@@ -91,11 +90,7 @@ function createPackageFile() {
 
 const files = ['README.md', 'LICENSE']
 
-const types = [
-  ['src/types.ts', 'types.d.ts'],
-  ['src/BaseNode.ts', 'BaseNode.ts'],
-  ['src/Events.ts', 'Events.ts'],
-]
+const types = []
 
 Promise.all(files.map(file => copyFile(file)))
   .then(() => Promise.all(types.map(file => copyTypes(...file))))

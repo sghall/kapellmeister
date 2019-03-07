@@ -7,7 +7,7 @@ import { terser } from 'rollup-plugin-terser'
 
 import pkg from './package.json'
 
-const input = 'src/index.ts'
+const input = 'src/index.js'
 const globalName = 'Kapellmeister'
 
 const umd = [
@@ -23,10 +23,9 @@ const umd = [
       babel({
         runtimeHelpers: true,
         exclude: 'node_modules/**',
-        extensions: ['.ts'],
+        extensions: ['.js'],
         presets: [],
         plugins: [
-          '@babel/plugin-transform-typescript',
           '@babel/plugin-proposal-class-properties',
           '@babel/transform-runtime',
         ],
@@ -53,10 +52,9 @@ const umd = [
       babel({
         runtimeHelpers: true,
         exclude: 'node_modules/**',
-        extensions: ['.ts'],
+        extensions: ['.js'],
         presets: [],
         plugins: [
-          '@babel/plugin-transform-typescript',
           '@babel/plugin-proposal-class-properties',
           '@babel/transform-runtime',
         ],
