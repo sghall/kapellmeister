@@ -11,7 +11,6 @@ module.exports = {
         ],
       ],
       plugins: [
-        '@babel/plugin-transform-typescript',
         '@babel/plugin-proposal-class-properties',
         ['@babel/plugin-transform-computed-properties', { loose: true }]
       ],
@@ -27,7 +26,6 @@ module.exports = {
         ],
       ],
       plugins: [
-        '@babel/plugin-transform-typescript',
         '@babel/plugin-proposal-class-properties',
         ['@babel/plugin-transform-computed-properties', { loose: true }]
       ],
@@ -43,7 +41,6 @@ module.exports = {
         ],
       ],
       plugins: [
-        '@babel/plugin-transform-typescript',
         '@babel/plugin-proposal-class-properties',
       ],
     },
@@ -58,7 +55,6 @@ module.exports = {
         ],
       ],
       plugins: [
-        '@babel/plugin-transform-typescript',
         '@babel/plugin-proposal-class-properties',
         'babel-plugin-istanbul',
       ],
