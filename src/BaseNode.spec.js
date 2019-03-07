@@ -1,18 +1,16 @@
 /* eslint-env mocha */
 import { assert } from 'chai'
 import BaseNode from './BaseNode'
-
-// tslint:disable:no-var-requires
 const sinon = require('sinon')
 
-const interpolateNumber = (a: number, b: number) => {
-  return a = +a, b -= a, (t: number) => {
+const interpolateNumber = (a, b) => {
+  return a = +a, b -= a, (t) => {
     return a + b * t
   }
 }
 
 class Node extends BaseNode {
-  getInterpolator(a: number, b: number, attr: string, namespace: string) {
+  getInterpolator(a, b) {
     return interpolateNumber(a, b)
   }
 }
@@ -241,7 +239,7 @@ describe('<class BaseNode>', () => {
 
     // tslint:disable:max-classes-per-file
     class NamespaceNode extends BaseNode {
-      getInterpolator(a: number, b: number, attr: string, namespace: string) {
+      getInterpolator(a, b, attr, namespace) {
         if (attr === 'x' && namespace === null) {
           sentX = true
         }

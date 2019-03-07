@@ -1,21 +1,7 @@
 import { once } from './utils'
-import { Config } from './types'
 
-export interface Eventable {
-  [key: string]: () => void
-  start: () => void
-  interrupt: () => void
-  end: () => void
-}
-
-export class Events implements Eventable {
-  start: () => void
-  interrupt: () => void
-  end: () => void
-
-  [key: string]: () => void
-
-  constructor(config: Config) {
+export class Events {
+  constructor(config) {
     this.start = null
     this.interrupt = null
     this.end = null

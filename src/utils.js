@@ -1,18 +1,16 @@
-import { EasingFunction, Indexable, Config, NameSpace } from './types'
-
 let transitionId = 0
 
 export function getTransitionId() {
   return ++transitionId
 }
 
-export function extend(obj: Indexable, props: Indexable) {
+export function extend(obj, props) {
   for (const i in props) {
     obj[i] = props[i]
   }
 }
 
-export function once(func: () => void): () => void {
+export function once(func) {
   let called = false
 
   return function transitionEvent() {
@@ -23,11 +21,11 @@ export function once(func: () => void): () => void {
   }
 }
 
-export function isNamespace<K extends keyof Config>(prop: Config[K]): prop is NameSpace {
+export function isNamespace(prop) {
   return typeof prop === 'object' && Array.isArray(prop) === false
 }
 
-const linear: EasingFunction = (t: number) => {
+const linear = t => {
   return +t
 }
 

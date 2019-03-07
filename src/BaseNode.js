@@ -1,30 +1,13 @@
 import { now, timer, timeout } from 'd3-timer'
 import { timingDefaults, extend, getTransitionId, isNamespace } from './utils'
-import { Config, Transition, HashMap, Tween } from './types'
 import Events from './Events'
 
-export interface TransitionData {
-  [key: string]: Transition
-}
-
-export interface Node {
-  getInterpolator(
-    begValue: any,
-    endValue: any,
-    attr: string,
-    nameSpace: string | null,
-  ): (t: number) => any
-}
-
-abstract class BaseNode implements Node {
-  state: HashMap
-  private transitionData?: TransitionData
-
-  constructor(state?: HashMap) {
+class BaseNode {
+  constructor(state) {
     this.state = state || {}
   }
 
-  transition(config: Array<Config> | Config) {
+  transition(config) {
     if (Array.isArray(config)) {
       for (const item of config) {
         this.parse(item)
@@ -48,7 +31,7 @@ abstract class BaseNode implements Node {
     }
   }
 
-  setState(update: any) {
+  setState(update) {
     if (typeof update === 'function') {
       extend(this.state, update(this.state))
     } else {
@@ -56,14 +39,8 @@ abstract class BaseNode implements Node {
     }
   }
 
-  abstract getInterpolator(
-    begValue: any,
-    endValue: any,
-    attr: string,
-    nameSpace: string | null,
-  ): (t: number) => any
 
-  private parse(config: Config) {
+  parse(config) {
     const clone = { ...config }
 
     const events = new Events(clone)
@@ -74,7 +51,7 @@ abstract class BaseNode implements Node {
 
     const timing = {
       ...timingDefaults,
-      ...((clone.timing as object) || {}),
+      ...(clone.timing || {}),
       time: now(),
     }
 
@@ -83,7 +60,7 @@ abstract class BaseNode implements Node {
     }
 
     Object.keys(clone).forEach(stateKey => {
-      const tweens: Tween[] = []
+      const tweens = []
       const next = clone[stateKey]
 
       if (isNamespace(next)) {
@@ -94,7 +71,7 @@ abstract class BaseNode implements Node {
             if (val.length === 1) {
               tweens.push(this.getTween(attr, val[0], stateKey))
             } else {
-              this.setState((state: HashMap) => {
+              this.setState((state) => {
                 return { [stateKey]: { ...state[stateKey], [attr]: val[0] } }
               })
 
@@ -102,8 +79,8 @@ abstract class BaseNode implements Node {
             }
           } else if (typeof val === 'function') {
             const getNameSpacedCustomTween = () => {
-              const kapellmeisterNamespacedTween = (t: number) => {
-                this.setState((state: HashMap) => {
+              const kapellmeisterNamespacedTween = t => {
+                this.setState(state => {
                   return { [stateKey]: { ...state[stateKey], [attr]: val(t) } }
                 })
               }
@@ -113,7 +90,7 @@ abstract class BaseNode implements Node {
 
             tweens.push(getNameSpacedCustomTween)
           } else {
-            this.setState((state: HashMap) => {
+            this.setState(state => {
               return { [stateKey]: { ...state[stateKey], [attr]: val } }
             })
 
@@ -130,7 +107,7 @@ abstract class BaseNode implements Node {
           }
         } else if (typeof next === 'function') {
           const getCustomTween = () => {
-            const kapellmeisterTween = (t: number) => {
+            const kapellmeisterTween = t => {
               this.setState({ [stateKey]: next(t) })
             }
 
@@ -148,7 +125,7 @@ abstract class BaseNode implements Node {
     })
   }
 
-  private getTween(attr: string, endValue: any, nameSpace: string | null): Tween {
+  getTween(attr, endValue, nameSpace) {
     return () => {
       const begValue = nameSpace
         ? this.state[nameSpace][attr]
@@ -160,15 +137,15 @@ abstract class BaseNode implements Node {
 
       const i = this.getInterpolator(begValue, endValue, attr, nameSpace)
 
-      let stateTween: (t: number) => void
+      let stateTween
 
       if (nameSpace === null) {
-        stateTween = (t: number) => {
+        stateTween = t => {
           this.setState({ [attr]: i(t) })
         }
       } else {
-        stateTween = (t: number) => {
-          this.setState((state: HashMap) => {
+        stateTween = t => {
+          this.setState(state => {
             return { [nameSpace]: { ...state[nameSpace], [attr]: i(t) } }
           })
         }
@@ -178,7 +155,7 @@ abstract class BaseNode implements Node {
     }
   }
 
-  private update(transition: Transition) {
+  update(transition) {
     if (!this.transitionData) {
       this.transitionData = {}
     }
@@ -186,11 +163,11 @@ abstract class BaseNode implements Node {
     this.init(getTransitionId(), transition)
   }
 
-  private init(id: number, transition: Transition) {
+  init(id, transition) {
     const n = transition.tweens.length
     const tweens = new Array(n)
 
-    const queue = (elapsed: number) => {
+    const queue = elapsed => {
       transition.status = 1
       transition.timer.restart(
         start,
@@ -206,11 +183,11 @@ abstract class BaseNode implements Node {
     this.transitionData[id] = transition
     transition.timer = timer(queue, 0, transition.timing.time)
 
-    const start = (elapsed: number) => {
+    const start = elapsed => {
       if (transition.status !== 1) return stop()
 
       for (const tid in this.transitionData) {
-        const t: Transition = this.transitionData[tid]
+        const t = this.transitionData[tid]
 
         if (t.stateKey !== transition.stateKey) {
           continue
@@ -274,7 +251,7 @@ abstract class BaseNode implements Node {
       tweens.length = j + 1
     }
 
-    const tick = (elapsed: number) => {
+    const tick = elapsed => {
       let t = 1
 
       if (elapsed < transition.timing.duration) {
