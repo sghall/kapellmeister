@@ -22,7 +22,7 @@ export function once(func) {
 }
 
 export function isNamespace(prop) {
-  return typeof prop === 'object' && Array.isArray(prop) === false
+  return prop && typeof prop === 'object' && Array.isArray(prop) === false
 }
 
 const linear = t => {
